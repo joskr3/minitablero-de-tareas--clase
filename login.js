@@ -1,35 +1,31 @@
-// @ts-nocheck
 import { doLogin } from "./backend.js";
-import { showError, showSuccess } from "./frontend.js";
+import { showError, showSuccess, getInputValue } from "./frontend.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("login-form");
+  const btnLogin = document.getElementById("btnLogin");
   const loginResult = document.getElementById("loginResult");
 
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      let formData = new FormData(loginForm);
-      let formObject = Object.fromEntries(formData.entries());
-
-      console.log(formObject); // Para depuración
+  if (btnLogin) {
+    btnLogin.addEventListener("click", async () => {
+      // Quitar la animación de bounce
+      btnLogin.classList.remove("anim-bounce");
 
       if (loginResult) {
         loginResult.textContent = "";
       }
 
-      const email = formObject.email;
-      const pass = formObject.password;
+      const email = getInputValue("email");
+      const pass = getInputValue("password");
 
       try {
         await doLogin(email, pass);
         showSuccess(loginResult, "¡Login exitoso! Redirigiendo...");
+        // Redirigir al dashboard
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 1000);
-      } catch (error) {
-        showError(loginResult, error.message);
+      } catch (e) {
+        showError(loginResult, e.message);
       }
     });
   }

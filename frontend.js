@@ -1,19 +1,20 @@
 // @ts-nocheck
 export function showError( el, msg ) {
   el.textContent = msg;
-  el.classlist.add( "error" );
-  el.classlist.remove("highlight")
+  el.classList.add( "error" );
+  el.classList.remove("highlight")
 }
 
 export function showSuccess( el, msg ) {
   el.textContent = msg;
-  el.classlist.remove( "error" );
-  el.classlist.add("highlight");
+  el.classList.remove( "error" );
+  el.classList.add("highlight");
 }
 
 export function getInputValue( id ) {
   const field = document.getElementById( id );
-  if ( field ) {
+  if ( !field ) {
     field.value = ""
   }
+  return field.value.trim()
 }
