@@ -1,5 +1,9 @@
-import { doLogin } from "./backend.js";
-import { showError, showSuccess, getInputValue } from "./frontend.js";
+import { iniciarSesion } from "./backend.js";
+import {
+  mostrarError,
+  mostrarMensajeExito,
+  obtenerValorInput,
+} from "./frontend.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const btnLogin = document.getElementById("btnLogin");
@@ -14,18 +18,18 @@ document.addEventListener("DOMContentLoaded", () => {
         loginResult.textContent = "";
       }
 
-      const email = getInputValue("email");
-      const pass = getInputValue("password");
+      const email = obtenerValorInput("email");
+      const pass = obtenerValorInput("password");
 
       try {
-        await doLogin(email, pass);
-        showSuccess(loginResult, "¡Login exitoso! Redirigiendo...");
+        await iniciarSesion(email, pass);
+        mostrarMensajeExito(loginResult, "¡Login exitoso! Redirigiendo...");
         // Redirigir al dashboard
         setTimeout(() => {
           window.location.href = "dashboard.html";
         }, 1000);
       } catch (e) {
-        showError(loginResult, e.message);
+        mostrarError(loginResult, e.message);
       }
     });
   }
